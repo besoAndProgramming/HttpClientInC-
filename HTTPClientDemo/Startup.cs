@@ -1,5 +1,3 @@
-using HTTPClientDemo.Handlers;
-using HTTPClientDemo.HttpClientServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,25 +27,14 @@ namespace HTTPClientDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient();
               
-            services.AddHttpClient("Posts", httpclient =>
-            {
-                httpclient.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/posts");
-                httpclient.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-                //httpclient.DefaultRequestHeaders.Add(HeaderNames.Authorization, "application/json");
-            })
-            .AddHttpMessageHandler<ValidateHeaderHandler>();
-
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HTTPClientDemo", Version = "v1" });
             });
-
-            services.AddScoped(typeof(CRUDHTTPService));
-            services.AddScoped(typeof(NamedCRUDHTTPService));
-            services.AddTransient(typeof(ValidateHeaderHandler));
+       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
